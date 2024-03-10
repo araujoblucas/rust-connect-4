@@ -361,18 +361,24 @@ fn main() {
 
                 game_matrix.show();
             } else {
-                let mut input = String::new();
                 println!("Digite a coluna jogador {}:", actual_team);
-                io::stdin().read_line(&mut input)
-                    .expect("Falha ao ler a linha");
-                let number: usize = input.trim().parse()
-                    .expect("Por favor, digite um número válido");
+                let mut number: usize = 10;
 
+                while number > 8 && number != 42 {
+                    let mut input = String::new();
+                    io::stdin().read_line(&mut input)
+                        .expect("Falha ao ler a linha");
+                    number = input.trim().parse()
+                        .expect("Por favor, digite um número válido");
+                    if number > 8 && number != 42 {
+                        println!("Por favor, a maior coluna e 8")
+                    }
+                }
 
-                if input.trim() == "42" {
+                if number == 42 {
                     let is_maximizing = actual_team == FIRST_TEAM;
                     let (_, best_col) = game_matrix.minimax(MINIMAX_DEPTH, is_maximizing);
-                    println!("A resposta de tudo foi0: {}", best_col);
+                    println!("A resposta de tudo foi: {}", best_col);
                     game_matrix.add_value(best_col, actual_team).expect("Falha ao adicionar valor pela IA");
                 } else {
                     let _ = game_matrix.add_value(number, actual_team).is_ok();
