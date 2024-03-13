@@ -104,7 +104,6 @@ impl GameMatrix {
                             return true;
                         }
                     } else {
-                        count = 0;
                         break;
                     }
                 }
@@ -122,7 +121,6 @@ impl GameMatrix {
                             return true;
                         }
                     } else {
-                        count = 0;
                         break;
                     }
                 }
@@ -137,7 +135,7 @@ impl GameMatrix {
             return (self.evaluate_board(), 0);
         }
 
-        let mut moves_scores: Vec<(isize, usize)> = (0..NUM_OF_COLS)
+        let moves_scores: Vec<(isize, usize)> = (0..NUM_OF_COLS)
             .into_par_iter()
             .filter_map(|col| {
                 let mut new_game = self.clone(); // Clona o estado atual do jogo para explorar essa jogada
@@ -282,8 +280,6 @@ impl GameMatrix {
     }
 
     fn evaluate_diagonal_descendente(&self) -> isize {
-        let mut score = 0;
-
         // Avaliar diagonais descendentes
         (0..=(NUM_OF_ROWS - SEQ_TO_WIN)).into_par_iter().flat_map(|row| {
             (0..=(NUM_OF_COLS - SEQ_TO_WIN)).into_par_iter().map(move |col| {
@@ -329,7 +325,7 @@ fn main() {
     let size = world.size();
     let rank = world.rank();
 
-    if (rank == 0) {
+    if rank == 0 {
         loop {
             let mut input = String::new();
             println!("0 - Deseja jogar sozinho\n1 - Jogar com amigo", );
@@ -337,7 +333,7 @@ fn main() {
                 .expect("Falha ao ler a linha");
             multiplayer = input.trim().parse()
                 .expect("Por favor, digite um número válido");
-            if (multiplayer == 0 || multiplayer == 1) {
+            if multiplayer == 0 || multiplayer == 1 {
                 break;
             }
         }
@@ -345,7 +341,7 @@ fn main() {
         game_matrix.show();
 
         while game_ended != true {
-            if (actual_team == SECOND_TEAM && multiplayer == 0) {
+            if actual_team == SECOND_TEAM && multiplayer == 0 {
                 let message = get_ia_message();
                 println!("IA: {}", message);
                 let is_maximizing = actual_team == FIRST_TEAM;
